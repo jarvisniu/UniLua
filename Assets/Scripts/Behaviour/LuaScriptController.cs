@@ -45,36 +45,10 @@ public class LuaScriptController : MonoBehaviour {
 
 		CallMethod( AwakeRef );
 	}
-
-// AssetBundle testx.unity3d is built for StandaloneWindows
-#if UNITY_STANDALONE
-	IEnumerator Start() {
-		CallMethod( StartRef );
-
-		// -- sample code for loading binary Asset Bundles --------------------
-		String s = "file:///"+Application.streamingAssetsPath+"/testx.unity3d";
-		WWW www = new WWW(s);
-		yield return www;
-		if(www.assetBundle.mainAsset != null) {
-			TextAsset cc = (TextAsset)www.assetBundle.mainAsset;
-			var status = Lua.L_LoadBytes(cc.bytes, "test");
-			if( status != ThreadStatus.LUA_OK )
-			{
-				throw new Exception( Lua.ToString(-1) );
-			}
-			status = Lua.PCall( 0, 0, 0);
-			if( status != ThreadStatus.LUA_OK )
-			{
-				throw new Exception( Lua.ToString(-1) );
-			}
-			Debug.Log("---- call done ----");
-		}
-	}
-#else
+	
 	void Start() {
 		CallMethod( StartRef );
 	}
-#endif
 
 	void Update() {
 		CallMethod( UpdateRef );
